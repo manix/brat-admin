@@ -1,18 +1,26 @@
 {
-    "name": "manix/brat-admin",
-    "description": "An administration area plugin for Brat framework.",
-    "require": {
-        "manix/brat-instance": "*@dev"
-    },
-    "authors": [
-        {
-            "name": "Manix",
-            "email": "admin@manix.info"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Manix\\Brat\\Utility\\Admin\\": "./"
-        }
+  "name": "manix/brat-admin",
+  "description": "An administration area plugin for Brat framework.",
+  "require": {
+    "manix/brat-instance": "*@dev"
+  },
+  "authors": [
+    {
+      "name": "Manix",
+      "email": "admin@manix.info"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Manix\\Brat\\Utility\\Admin\\": "./"
+    }
+  },
+  "scripts": {
+    "post-package-install": [
+      "Manix\\Brat\\Utility\\Admin\\Installer::install"
+    ],
+    "pre-package-uninstall": [
+      "Manix\\Brat\\Utility\\Admin\\Installer::uninstall"
+    ]
+  }
 }
