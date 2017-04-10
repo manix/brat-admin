@@ -7,21 +7,23 @@ use Manix\Brat\Utility\PluginInstaller;
 
 class Installer extends PluginInstaller {
 
-  public static function getDir() {
-    return new Directory(__DIR__ . '/instance');
+  public function getDir() {
+    return new Directory(__DIR__ . '/src/instance');
   }
 
-  public static function install() {
-    self::getDir()->copy(self::getProjectRoot());
+  public function install() {
+    $this->getDir()->copy($this->getProjectRoot());
   }
 
-  public static function uninstall() {
-    $local = __DIR__ . '/instance';
-    $project = self::getProjectRoot();
+  public function uninstall() {
+    $local = __DIR__ . '/src/instance';
+    $project = $this->getProjectRoot();
 
-    foreach (self::getDir()->files() as $file) {
+    foreach ($this->getDir()->files() as $file) {
       unlink(str_replace($local, $project, $file));
     }
   }
 
 }
+
+return new Installer();
