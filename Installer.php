@@ -2,8 +2,6 @@
 
 namespace Manix\Brat\Utility\Admin;
 
-require(__DIR__ . '/../../autoload.php');
-
 use Manix\Brat\Components\Filesystem\Directory;
 use Manix\Brat\Utility\PluginInstaller;
 
