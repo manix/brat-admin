@@ -20,7 +20,11 @@ class Installer extends PluginInstaller {
     $project = $this->getProjectRoot();
 
     foreach ($this->getDir()->files() as $file) {
-      unlink(str_replace($local, $project, $file));
+      $installed = str_replace($local, $project, $file);
+
+      if (is_file($installed)) {
+        unlink($installed);
+      }
     }
   }
 
