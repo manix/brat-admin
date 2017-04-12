@@ -9,7 +9,7 @@ use Manix\Brat\Utility\Admin\Controllers\Users;
 
 class Plugin extends AbstractPlugin {
 
-  public function features() {
+  public function features(): array {
     return [
         Home::class,
         Users::class
