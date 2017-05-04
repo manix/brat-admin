@@ -2,6 +2,7 @@
 
 namespace Manix\Brat\Utility\Admin\Models;
 
+use Manix\Brat\Components\Model;
 use Project\Models\DefaultGateway;
 
 class UserAdminGateway extends DefaultGateway {
@@ -14,5 +15,16 @@ class UserAdminGateway extends DefaultGateway {
         'privileges'
     ];
     protected $pk = ['user_id'];
+    
+    public function persist(Model $model, array $fields = null): bool {
+      $priv = $model->privileges;
+      $model->privileges = json_encode($model->privileges);
+      
+      $result = parent::persist($model, $fields);
+      
+      $model->privileges = $priv;
+      
+      return $result;
+    }
 
 }

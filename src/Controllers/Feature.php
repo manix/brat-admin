@@ -3,18 +3,18 @@
 namespace Manix\Brat\Utility\Admin\Controllers;
 
 use Exception;
+use Manix\Brat\Components\Collection;
 use Manix\Brat\Components\Criteria;
+use Manix\Brat\Utility\Admin\Models\UserAdmin;
 use Manix\Brat\Utility\Admin\Models\UserAdminGateway;
 use Manix\Brat\Utility\Users\Models\Auth;
-use Manix\Brat\Utility\Users\Models\User;
+use function config;
 
 trait Feature {
 
-  public function __construct() {
-    $this->on('before-execute', [$this, 'authorizeAuth']);
-  }
+  protected static $features;
 
-  public function authorizeAuth() {
+  public function before($method) {
     Auth::required();
 
     $auth = Auth::user();
@@ -24,14 +24,20 @@ trait Feature {
       $criteria = new Criteria();
       $criteria->equals('user_id', $auth->id);
 
-      $auth->admin = $gate->findBy($criteria);
+      $auth->admin = $gate->findBy($criteria)->first();
+
+      if (!$auth->admin) {
+        $auth->admin = new UserAdmin();
+      }
 
       Auth::register($auth);
     }
 
-    if (!$this->accessControl($auth)) {
+    if (!$this->accessControl($auth->admin)) {
       throw new Exception('Forbidden', 403);
     }
+    
+    return $method;
   }
 
   public function id() {
@@ -46,32 +52,43 @@ trait Feature {
     return false;
   }
 
+  public function icon() {
+    return null;
+  }
+
+  public function image() {
+    return null;
+  }
+
   /**
    * Determine whether $user can access this feature.
    * @param fAdminUser $user
    * @return boolean
    */
-  public function accessControl(User $user): bool {
-    if ($user) {
-      return true;
-    }
+  public function accessControl(UserAdmin $user): bool {
+    return $user->hasPrivilege($this->id()) || (int)($user->user_id ?? 0) === (int)config('manix/admin')['super'];
   }
 
   /**
    * Get all registered features.
    */
   final public function getFeatures() {
-    $features = [];
+    if (self::$features === null) {
 
-    foreach (config('plugins') as $class) {
-      $plugin = new $class;
+      $features = new Collection(AdminFeature::class);
 
-      foreach ($plugin->features() as $feature) {
-        $features[] = new $feature;
+      foreach (config('plugins') as $class) {
+        $plugin = new $class;
+
+        foreach ($plugin->features() as $feature) {
+          $features->push(new $feature);
+        }
       }
+
+      self::$features = $features;
     }
 
-    return $features;
+    return self::$features;
   }
 
 }

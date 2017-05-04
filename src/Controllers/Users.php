@@ -9,12 +9,10 @@ use Manix\Brat\Utility\Admin\Views\UsersView;
 use Manix\Brat\Utility\Users\Models\UserEmailGateway;
 
 class Users extends Controller implements AdminFeature {
+  
+  use UsersFeature;
 
   public $page = UsersView::class;
-  
-  public function id() {
-    return 2;
-  }
 
   public function get() {
     $gate = new AdminPatchedUserGateway();
@@ -24,30 +22,6 @@ class Users extends Controller implements AdminFeature {
     return [
         'users' => $gate->find()
     ];
-  }
-
-  public function description() {
-    
-  }
-
-  public function icon() {
-    
-  }
-
-  public function image() {
-    
-  }
-
-  public function name() {
-    
-  }
-
-  public function accessControl(\Manix\Brat\Utility\Users\Models\User $user): bool {
-    
-  }
-
-  public function hidden(): bool {
-    
   }
 
 }

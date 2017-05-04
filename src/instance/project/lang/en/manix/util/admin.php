@@ -6,5 +6,6 @@ return [
     'errorUserNotFound' => 'I don\'t know you.',
     'errorWrongPassword' => 'Wrong password.',
     'profile' => 'Profile',
-    'logout' => 'Log out'
+    'logout' => 'Log out',
+    'administration' => 'Administration'
 ];

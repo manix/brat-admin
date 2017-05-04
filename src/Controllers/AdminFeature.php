@@ -2,7 +2,7 @@
 
 namespace Manix\Brat\Utility\Admin\Controllers;
 
-use Manix\Brat\Utility\Users\Models\User;
+use Manix\Brat\Utility\Admin\Models\UserAdmin;
 
 interface AdminFeature {
 
@@ -27,5 +27,5 @@ interface AdminFeature {
    * @param fAdminUser $user
    * @return boolean
    */
-  public function accessControl(User $user): bool;
+  public function accessControl(UserAdmin $user): bool;
 }

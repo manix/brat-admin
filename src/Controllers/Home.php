@@ -4,12 +4,14 @@ namespace Manix\Brat\Utility\Admin\Controllers;
 
 use Manix\Brat\Components\Controller;
 use Manix\Brat\Utility\Admin\Controllers\AdminFeature;
+use Manix\Brat\Utility\Admin\Models\UserAdmin;
 use Manix\Brat\Utility\Admin\Views\HomeView;
-use Manix\Brat\Utility\Users\Models\User;
 
 class Home extends Controller implements AdminFeature {
 
-  use Feature;
+  use Feature {
+    accessControl as actrl;
+  }
 
   public $page = HomeView::class;
 
@@ -21,8 +23,8 @@ class Home extends Controller implements AdminFeature {
     return true;
   }
 
-  public function accessControl(User $user): bool {
-    return isset($user);
+  public function accessControl(UserAdmin $user): bool {
+    return isset($user->user_id);
   }
 
   public function get() {
@@ -32,19 +34,15 @@ class Home extends Controller implements AdminFeature {
   }
 
   public function description() {
-    
+    return null;
   }
 
   public function icon() {
-    
-  }
-
-  public function image() {
-    
+    return 'home';
   }
 
   public function name() {
-    
+    return 'Home';
   }
 
 }

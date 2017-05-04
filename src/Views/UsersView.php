@@ -2,13 +2,14 @@
 
 namespace Manix\Brat\Utility\Admin\Views;
 
+use Manix\Brat\Utility\Admin\Controllers\Users\Manage;
 use Manix\Brat\Utility\Admin\Controllers\Users\Privileges;
 use function html;
 use function route;
 
-class UsersView extends AdminLayout {
+class UsersView extends UsersLayout {
 
-  public function content() {
+  public function tashaci() {
     ?>
     <table class="table table-bordered">
       <thead>
@@ -41,6 +42,12 @@ class UsersView extends AdminLayout {
                   <i class="fa fa-plus"></i>
                 </a>
               <?php endif; ?>
+              <a href="<?= route(Manage::class, ['id' => $user->id]) ?>" class="btn btn-secondary btn-sm">
+                <i class="fa fa-list"></i>
+              </a>
+              <a href="<?= route(Manage::class, ['delete' => true, 'id' => $user->id]) ?>" class="btn btn-danger btn-sm">
+                <i class="fa fa-trash"></i>
+              </a>
             </td>
           </tr>
         <?php endforeach; ?>
