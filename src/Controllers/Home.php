@@ -6,6 +6,7 @@ use Manix\Brat\Components\Controller;
 use Manix\Brat\Utility\Admin\Controllers\AdminFeature;
 use Manix\Brat\Utility\Admin\Models\UserAdmin;
 use Manix\Brat\Utility\Admin\Views\HomeView;
+use Manix\Brat\Utility\Users\Models\Auth;
 
 class Home extends Controller implements AdminFeature {
 
@@ -29,7 +30,9 @@ class Home extends Controller implements AdminFeature {
 
   public function get() {
     return [
-        'features' => $this->getFeatures()
+        'features' => $this->getFeatures()->filter(function($feature) {
+          return $feature->accessControl(Auth::user()->admin ?? null);
+        })
     ];
   }
 
