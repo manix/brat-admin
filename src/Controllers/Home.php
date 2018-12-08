@@ -2,37 +2,25 @@
 
 namespace Manix\Brat\Utility\Admin\Controllers;
 
-use Manix\Brat\Components\Controller;
-use Manix\Brat\Utility\Admin\Controllers\AdminFeature;
-use Manix\Brat\Utility\Admin\Models\UserAdmin;
+use Manix\Brat\Utility\Admin\Models\Features;
 use Manix\Brat\Utility\Admin\Views\HomeView;
 use Manix\Brat\Utility\Users\Models\Auth;
 
-class Home extends Controller implements AdminFeature {
-
-  use Feature {
-    accessControl as actrl;
-  }
+class Home extends AdminController {
 
   public $page = HomeView::class;
 
   public function id() {
-    return 1;
+    return 1.0;
   }
 
   public function hidden(): bool {
     return true;
   }
 
-  public function accessControl(UserAdmin $user): bool {
-    return isset($user->user_id);
-  }
-
   public function get() {
     return [
-        'features' => $this->getFeatures()->filter(function($feature) {
-          return $feature->accessControl(Auth::user()->admin ?? null);
-        })
+        'features' => Features::getForUser(Auth::user())
     ];
   }
 

@@ -40,7 +40,7 @@ class UsersPrivilegesView extends UsersLayout {
 
     $form->setCustomRenderer('dummy_for_render', function($input) {
       ?>
-      <div class="d-flex justify-content-end mb-2">
+      <div class="d-flex justify-content-end">
         <button class="btn-block btn-lg btn btn-secondary" type="submit">
           <i class="fa fa-save fa-lg"></i>
         </button>

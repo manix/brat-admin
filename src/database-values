@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS `manix_users_admins` (
+`user_id` int(10) unsigned NOT NULL,
+`privileges` text CHARACTER SET utf8,
+PRIMARY KEY (`user_id`),
+CONSTRAINT `mua_ufk` FOREIGN KEY (`user_id`) REFERENCES `manix_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `manix_admin_groups` (
+`id` int(10) unsigned NOT NULL,
+`name` varchar(255) DEFAULT NULL,
+`privileges` text,
+`created` datetime DEFAULT NULL,
+`updated` datetime DEFAULT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `manix_users_groups` (
+`user_id` int(10) unsigned NOT NULL,
+`group_id` int(10) unsigned NOT NULL,
+PRIMARY KEY (`user_id`,`group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

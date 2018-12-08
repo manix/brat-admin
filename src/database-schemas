@@ -1,0 +1,36 @@
+CREATE TABLE IF NOT EXISTS `manix_access_log` (
+`user_id` int(10) unsigned NOT NULL,
+`created` datetime NOT NULL,
+`feature_id` varchar(128) DEFAULT NULL,
+`payload` text,
+PRIMARY KEY (`user_id`,`created`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `manix_groups` (
+`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`name` varchar(255) DEFAULT NULL,
+`created` datetime DEFAULT NULL,
+`updated` datetime DEFAULT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `manix_permissions` (
+`feature_id` varchar(128) NOT NULL,
+`group_id` int(10) unsigned NOT NULL,
+`readonly` tinyint(4) DEFAULT NULL,
+PRIMARY KEY (`feature_id`,`group_id`),
+KEY `group_id` (`group_id`),
+CONSTRAINT `manix_permissions_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `manix_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `manix_users_groups` (
+`user_id` int(10) unsigned NOT NULL,
+`group_id` int(10) unsigned NOT NULL,
+`created` datetime DEFAULT NULL,
+`updated` datetime DEFAULT NULL,
+PRIMARY KEY (`user_id`,`group_id`),
+KEY `group_id` (`group_id`),
+CONSTRAINT `manix_users_groups_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `manix_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT `manix_users_groups_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `manix_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

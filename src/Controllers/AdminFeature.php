@@ -2,7 +2,7 @@
 
 namespace Manix\Brat\Utility\Admin\Controllers;
 
-use Manix\Brat\Utility\Admin\Models\UserAdmin;
+use Manix\Brat\Utility\Users\Models\User;
 
 interface AdminFeature {
 
@@ -23,9 +23,10 @@ interface AdminFeature {
   public function hidden(): bool;
 
   /**
-   * Determine whether $user can access this feature.
-   * @param fAdminUser $user
-   * @return boolean
+   * Get or set the permissions for this feature.
+   * @param type $permissions
    */
-  public function accessControl(UserAdmin $user): bool;
+  public function permissions($permissions = null);
+
+  public function accessControl(User $user, $write = false);
 }

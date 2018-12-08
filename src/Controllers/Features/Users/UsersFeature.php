@@ -1,6 +1,8 @@
 <?php
 
-namespace Manix\Brat\Utility\Admin\Controllers;
+namespace Manix\Brat\Utility\Admin\Controllers\Features\Users;
+
+use Manix\Brat\Utility\Admin\Controllers\Feature;
 
 trait UsersFeature {
 
@@ -19,7 +21,7 @@ trait UsersFeature {
   }
 
   public function id() {
-    return 2;
+    return 1.1;
   }
 
 }
