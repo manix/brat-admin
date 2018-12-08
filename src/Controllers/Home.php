@@ -3,12 +3,11 @@
 namespace Manix\Brat\Utility\Admin\Controllers;
 
 use Manix\Brat\Utility\Admin\Models\Features;
-use Manix\Brat\Utility\Admin\Views\HomeView;
 use Manix\Brat\Utility\Users\Models\Auth;
 
 class Home extends AdminController {
 
-  public $page = HomeView::class;
+  use FeatureIndex;
 
   public function id() {
     return 1.0;
@@ -16,12 +15,6 @@ class Home extends AdminController {
 
   public function hidden(): bool {
     return true;
-  }
-
-  public function get() {
-    return [
-        'features' => Features::getForUser(Auth::user())
-    ];
   }
 
   public function description() {
@@ -34,6 +27,10 @@ class Home extends AdminController {
 
   public function name() {
     return 'Home';
+  }
+
+  public function features() {
+    return Features::getForUser(Auth::user());
   }
 
 }

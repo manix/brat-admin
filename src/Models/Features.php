@@ -4,6 +4,7 @@ namespace Manix\Brat\Utility\Admin\Models;
 
 use Manix\Brat\Components\Collection;
 use Manix\Brat\Utility\Admin\Controllers\AdminFeature;
+use Manix\Brat\Utility\Admin\Controllers\Features\Permissions\Index;
 use Manix\Brat\Utility\Users\Models\User;
 use Project\Traits\Admin\AdminGatewayFactory;
 use const DEBUG_MODE;
@@ -60,7 +61,7 @@ class Features {
   protected static function constructFeaturesList() {
     $features = new Collection(AdminFeature::class);
     $permissions = [];
-    $ctrl = new \Manix\Brat\Utility\Admin\Controllers\Features\Permissions\Index;
+    $ctrl = new Index;
 
     foreach ($ctrl->instantiate($ctrl->permissionsGateway())->find() as $record) {
       if (empty($permissions[$record->feature_id])) {

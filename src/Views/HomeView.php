@@ -8,6 +8,8 @@ class HomeView extends AdminLayout {
     ?>
 
     <div class="container-fluid p-0">
+      <?= new FeatureView([$this->data['ctrl']], $this->html) ?>
+
       <div class="card-columns" style="column-gap:0">
         <?php
         foreach ($this->data['features'] as $feature) {
