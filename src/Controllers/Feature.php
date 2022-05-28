@@ -58,7 +58,9 @@ trait Feature {
         continue;
       }
 
-      return in_array($groupId, $user->groups);
+      if (in_array($groupId, $user->groups)) {
+        return true; 
+      }
     }
 
     return false;
