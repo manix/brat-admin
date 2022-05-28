@@ -54,7 +54,7 @@ class Features {
 
   protected static function constructFeature($class, $list, $permissions) {
     $instance = new $class;
-    $instance->permissions($permissions[$instance->id()] ?? []);
+    $instance->permissions($permissions[(string)$instance->id()] ?? []);
     $list->push($instance);
   }
 
