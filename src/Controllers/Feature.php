@@ -53,12 +53,13 @@ trait Feature {
       return false;
     }
 
+    $supergroup = (int)config('manix/admin')['supergroup'] ?? 0;
     foreach ($this->permissions() as $groupId => $readonly) {
       if ($write && $readonly) {
         continue;
       }
 
-      if (in_array($groupId, $user->groups)) {
+      if (in_array($groupId, $user->groups) || $groupId === $supergroup) {
         return true; 
       }
     }
