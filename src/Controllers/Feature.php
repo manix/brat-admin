@@ -52,14 +52,17 @@ trait Feature {
     if (empty($user->groups)) {
       return false;
     }
+    
+    if (in_array((int)config('manix/admin')['supergroup'] ?? 0, $user->groups)) {
+      return true;
+    }
 
-    $supergroup = (int)config('manix/admin')['supergroup'] ?? 0;
     foreach ($this->permissions() as $groupId => $readonly) {
       if ($write && $readonly) {
         continue;
       }
 
-      if (in_array($groupId, $user->groups) || $groupId === $supergroup) {
+      if (in_array($groupId, $user->groups)) {
         return true; 
       }
     }
