@@ -26,7 +26,7 @@ trait FeatureIndex {
     }
 
     return [
-        'features' => $this->features(),
+        'features' => $features,
         'ctrl' => $this
     ];
   }
