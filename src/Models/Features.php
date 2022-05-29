@@ -85,13 +85,13 @@ class Features {
     }
     
     foreach ($features as $feature) {
-        $this->extractFeaturesFromIndexes($feature, $features, $permissions);
+        self::extractFeaturesFromIndexes($feature, $features, $permissions);
     }
 
     return $features;
   }
 
-  private function extractFeaturesFromIndexes($feature, $features, $permissions) {
+  private static function extractFeaturesFromIndexes($feature, $features, $permissions) {
     if (method_exists($feature, 'features')) {
       foreach ($feature->features() as $child) {
         if ($features->findCallback(function ($f) use ($child) {
@@ -100,7 +100,7 @@ class Features {
           continue;
         }
         self::constructFeature(get_class($child), $features, $permissions);
-        $this->extractFeaturesFromIndexes($child, $features, $permissions);
+        self::extractFeaturesFromIndexes($child, $features, $permissions);
       }
     }
   }
