@@ -10,6 +10,7 @@ use Manix\Brat\Utility\Admin\Controllers\Features\Groups\Index as GIndex;
 use Manix\Brat\Utility\Admin\Models\Features;
 use Manix\Brat\Utility\Admin\Views\PermissionsListView;
 use Project\Traits\Admin\AdminGatewayFactory;
+use Manix\Brat\Utility\Admin\Controllers\FeatureIndex;
 
 class Index extends AdminFeatureCRUDController {
 
@@ -29,12 +30,24 @@ class Index extends AdminFeatureCRUDController {
 
   public function getFeaturesForInput() {
     $features = [];
-
-    foreach (Features::getAll() as $feature) {
-      $features[(string)$feature->id()] = $feature->name();
-    }
-
+    
+    $this->extractFeatureData($features, Features::getAll());
+    
     return $features;
+  }
+
+  private function extractFeatureData(&$map, $features, $prefix = '') {
+    foreach ($features as $feature) {
+      if (isset($map[(string)$feature->id()])) {
+        continue;
+      }
+      
+      $map[(string)$feature->id()] = $prefix . $feature->name();
+
+      if (method_exists($feature, 'features')) {
+        $this->extractFeatureData($map, $feature->features(), $prefix . '- ');
+      }
+    }
   }
 
   public function getListView() {
@@ -94,3 +107,4 @@ class Index extends AdminFeatureCRUDController {
   }
 
 }
+
