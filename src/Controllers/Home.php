@@ -30,7 +30,9 @@ class Home extends AdminController {
   }
 
   public function features() {
-    return Features::getForUser(Auth::user());
+    return [
+    	// TODO define features
+    ]
   }
 
 }
