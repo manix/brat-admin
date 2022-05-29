@@ -4,6 +4,7 @@ namespace Manix\Brat\Utility\Admin\Controllers;
 
 use Manix\Brat\Utility\Admin\Views\HomeView;
 use Manix\Brat\Utility\Users\Models\Auth;
+use Manix\Brat\Utility\Admin\Models\Features;
 
 trait FeatureIndex {
 
@@ -20,6 +21,8 @@ trait FeatureIndex {
     $features = [];
     
     foreach ($this->features() as $feature) {
+    	$f = Features::get($feature->id());
+    	$feature->permissions($f->permissions());
     	if ($feature->accessControl($user)) {
     	    $features[] = $feature;
     	}
