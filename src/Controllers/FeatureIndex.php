@@ -22,9 +22,12 @@ trait FeatureIndex {
     
     foreach ($this->features() as $feature) {
     	$f = Features::get($feature->id());
-    	$feature->permissions($f->permissions());
-    	if ($feature->accessControl($user)) {
-    	    $features[] = $feature;
+    	
+    	if ($f) {
+            $feature->permissions($f->permissions());
+            if ($feature->accessControl($user)) {
+    	        $features[] = $feature;
+    	    }
     	}
     }
 

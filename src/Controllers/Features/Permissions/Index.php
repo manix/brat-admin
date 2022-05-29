@@ -29,25 +29,7 @@ class Index extends AdminFeatureCRUDController {
   }
 
   public function getFeaturesForInput() {
-    $features = [];
-    
-    $this->extractFeatureData($features, Features::getAll());
-    
-    return $features;
-  }
-
-  private function extractFeatureData(&$map, $features, $prefix = '') {
-    foreach ($features as $feature) {
-      if (isset($map[(string)$feature->id()])) {
-        continue;
-      }
-      
-      $map[(string)$feature->id()] = $prefix . $feature->name();
-
-      if (method_exists($feature, 'features')) {
-        $this->extractFeatureData($map, $feature->features(), $prefix . '- ');
-      }
-    }
+    return Features::getAll();
   }
 
   public function getListView() {

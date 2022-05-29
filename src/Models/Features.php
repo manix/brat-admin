@@ -83,8 +83,26 @@ class Features {
         }
       }
     }
+    
+    foreach ($features as $feature) {
+        $this->extractFeaturesFromIndexes($feature, $features, $permissions);
+    }
 
     return $features;
+  }
+
+  private function extractFeaturesFromIndexes($feature, $features, $permissions) {
+    if (method_exists($feature, 'features')) {
+      foreach ($feature->features() as $child) {
+        if ($features->findCallback(function ($f) use ($child) {
+          return $f->id() == $child->id();
+        })) {
+          continue;
+        }
+        self::constructFeature(get_class($child), $features, $permissions);
+        $this->extractFeaturesFromIndexes($child, $features, $permissions);
+      }
+    }
   }
 
 }
