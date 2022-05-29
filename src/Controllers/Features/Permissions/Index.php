@@ -29,7 +29,23 @@ class Index extends AdminFeatureCRUDController {
   }
 
   public function getFeaturesForInput() {
-    return Features::getAll();
+    $features = [];
+
+    foreach (Features::getAll() as $feature) {
+      $features[(string)$feature->id()] = $feature->name();
+    }
+
+    return $features;
+  }
+
+  private function extractFeatureData(&$map, $features) {
+    foreach ($features as $feature) {
+      $map[(string)$feature->id()] = $feature->name();
+
+      if ($feature instanceof FeatureIndex) {
+        $this->extractFeatureData($map, $feature->features());
+      }
+    }
   }
 
   public function getListView() {
@@ -89,4 +105,3 @@ class Index extends AdminFeatureCRUDController {
   }
 
 }
-
