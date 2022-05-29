@@ -32,7 +32,7 @@ class Home extends AdminController {
   public function features() {
     return [
     	// TODO define features
-    ]
+    ];
   }
 
 }
