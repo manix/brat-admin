@@ -20,8 +20,8 @@ trait UsersFeature {
     return 'Users';
   }
 
-  public function id() {
-    return 1.1;
+  public function permissions_id() {
+    return 'users';
   }
 
 }

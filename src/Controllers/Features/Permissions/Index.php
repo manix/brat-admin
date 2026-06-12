@@ -16,23 +16,34 @@ class Index extends AdminFeatureCRUDController {
 
   use AdminGatewayFactory;
 
-  public function id() {
-    return 1.2;
+  public function permissions_id() {
+    return 'permissions';
   }
 
   public function getColumns() {
     return ['feature_id', 'group_id', 'readonly'];
   }
 
-  public function getEditableFields() {
+  public function getEditableColumns() {
     return ['feature_id', 'group_id', 'readonly'];
+  }
+
+  public function getSearchableColumnsFiltered() {
+    return ['group_id', 'feature_id'];
+  }
+
+  public function getSearchableColumnsUnfiltered() {
+    return ['group_id'];
   }
 
   public function getFeaturesForInput() {
     $features = [];
 
     foreach (Features::getAll() as $feature) {
-      $features[(string)$feature->id()] = $feature->name();
+      $id = (string)$feature->permissions_id();
+      if (!isset($features[$id])) {
+        $features[$id] = $feature->name() . ' [' . $id . ']';
+      }
     }
 
     return $features;
@@ -48,7 +59,7 @@ class Index extends AdminFeatureCRUDController {
     }
   }
 
-  public function getListView() {
+  public function getDefaultListView() {
     return PermissionsListView::class;
   }
 
@@ -68,7 +79,7 @@ class Index extends AdminFeatureCRUDController {
   protected function constructUpdateForm(Form $form) {
     $form = parent::constructUpdateForm($form);
     $feature = $form->input('feature_id');
-    $feature->setAttribute('selected', $feature->value);
+    $feature->setAttribute('selected', $_GET['feature_id']);
     $feature->type = 'select';
     $feature->value = $this->getFeaturesForInput();
     $form->input('readonly')->type = 'bool';
@@ -102,6 +113,16 @@ class Index extends AdminFeatureCRUDController {
 
   public function icon() {
     return 'lock';
+  }
+
+  public function after($data) {
+    $data = parent::after($data);
+    
+    if (($data['success'] ?? 0) === true && isset($data['model'])) {
+      cache()->wipe('acl/perm/' . $data['model']->feature_id);
+    }
+
+    return $data;
   }
 
 }

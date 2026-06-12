@@ -19,6 +19,10 @@ trait Feature {
     return static::class;
   }
 
+  public function permissions_id() {
+    return $this->id();
+  }
+
   /**
    * Determine whether this feature should be hidden from lists.
    * @return bool
@@ -32,6 +36,10 @@ trait Feature {
   }
 
   public function image() {
+    return null;
+  }
+
+  public function resource_id($data) {
     return null;
   }
 

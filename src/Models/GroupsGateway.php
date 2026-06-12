@@ -13,7 +13,8 @@ class GroupsGateway extends DefaultGateway {
   ];
   protected $pk = ['id'];
   protected $rel = [
-      'members' => [UsersGroupsGateway::class, 'id', 'group_id']
+      'members' => [UsersGroupsGateway::class, 'id', 'group_id'],
+      'permissions' => [PermissionsGateway::class, 'id', 'group_id'],
   ];
   public $timestamps = true;
 

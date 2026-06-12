@@ -9,8 +9,8 @@ class Home extends AdminController {
 
   use FeatureIndex;
 
-  public function id() {
-    return 1.0;
+  public function permissions_id() {
+    return "home";
   }
 
   public function hidden(): bool {

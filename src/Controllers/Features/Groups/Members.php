@@ -6,6 +6,7 @@ use Manix\Brat\Components\Persistence\Gateway;
 use Manix\Brat\Utility\Admin\Controllers\AdminFeatureCRUDController;
 use Manix\Brat\Utility\Admin\Controllers\Features\Users\Index as UIndex;
 use Manix\Brat\Utility\Admin\Views\GroupsMembersListView;
+use Manix\Brat\Utility\Users\Models\Auth;
 use Project\Traits\Admin\AdminGatewayFactory;
 
 class Members extends AdminFeatureCRUDController {
@@ -67,6 +68,22 @@ class Members extends AdminFeatureCRUDController {
     }
 
     return 'Group not found';
+  }
+
+  public function after($data) {
+    $data = parent::after($data);
+    
+    if (($data['success'] ?? 0) === true && isset($data['model'])) {
+      $user_id = $data['model']->user_id;
+
+      $user = Auth::getCached($user_id);
+      if ($user) {
+        unset($user->groups);
+        Auth::updateCache($user);
+      }
+    }
+
+    return $data;
   }
 
 }

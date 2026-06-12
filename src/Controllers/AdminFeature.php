@@ -28,5 +28,10 @@ interface AdminFeature {
    */
   public function permissions($permissions = null);
 
+  /**
+   * Allows features to be grouped for access control
+   */
+  public function permissions_id();
+
   public function accessControl(User $user, $write = false);
 }

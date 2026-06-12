@@ -13,4 +13,17 @@ abstract class AdminFeatureCRUDController extends AdminController {
     return AdminCRUDView::class;
   }
 
+  public function resource_id($data) {
+    $gate = $this->getGateway();
+    
+    $pk = $gate->getPK();
+
+    $value = [];
+
+    foreach ($pk as $col) {
+      $value[] = $data[$col] ?? '';
+    }
+
+    return implode('-', $value);
+  }
 }

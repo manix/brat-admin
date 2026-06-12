@@ -24,7 +24,7 @@ class Index extends AdminFeatureCRUDController {
     ];
   }
 
-  public function getListView() {
+  public function getDefaultListView() {
     return GroupsListView::class;
   }
 

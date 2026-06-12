@@ -23,6 +23,12 @@ class Features {
     });
   }
 
+  public static function getByPermissionsID($id) {
+    return self::getAll()->findCallback(function ($feature) use ($id) {
+      return $feature->permissions_id() == $id;
+    });
+  }
+
   /**
    * Get all features.
    * @return AdminFeature[]

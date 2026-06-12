@@ -34,3 +34,6 @@ CONSTRAINT `manix_users_groups_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `manix
 CONSTRAINT `manix_users_groups_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `manix_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `manix_access_log` ADD `route` TEXT NOT NULL AFTER `payload`, ADD `user_agent` TEXT NOT NULL AFTER `route`, ADD `remote_addr` VARCHAR(15) NOT NULL AFTER `user_agent`, ADD `server_protocol` TINYTEXT NOT NULL AFTER `remote_addr`, ADD `request_method` TINYTEXT NOT NULL AFTER `server_protocol`, ADD `query` TEXT NOT NULL AFTER `request_method`, ADD `body` TEXT NOT NULL AFTER `query`, ADD `files` TEXT NOT NULL AFTER `body`, ADD `resource_id` VARCHAR(64) NOT NULL AFTER `files`, ADD `result` TEXT NOT NULL AFTER `resource_id`; 
+ALTER TABLE `manix_access_log` ADD INDEX(`feature_id`, `resource_id`); 
+ALTER TABLE `manix_access_log` CHANGE `created` `created` DATETIME(6) NOT NULL; 

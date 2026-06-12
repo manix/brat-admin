@@ -25,13 +25,16 @@ class AccessControl implements Middleware {
 
       Auth::register($auth);
     }
-
-    $permissions = [];
-    foreach ($this->instantiate($this->permissionsGateway())->find($controller->id()) as $record) {
-      $permissions[$record->group_id] = $record->readonly;
-    }
+    
+    $permissions = cache('acl/perm/' . $controller->permissions_id(), function () use ($controller) {
+      $permissions = [];
+      foreach ($this->instantiate($this->permissionsGateway())->find($controller->permissions_id()) as $record) {
+        $permissions[$record->group_id] = $record->readonly;
+      }
+      return $permissions;
+    }, 86400);
     $controller->permissions($permissions);
-
+    
     if ($controller->accessControl($auth, $method !== 'get')) {
       return;
     }
