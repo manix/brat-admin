@@ -29,6 +29,7 @@ class AccessLog implements Middleware {
         $data = $event->getData();
 
         if (($data['success'] ?? false) === true && isset($_GET[$controller->createKey ?? 'new']) && !empty($data['model'])) {
+          // no need to check if controller has resource_id method, above checks are pretty safe
           $record->resource_id = $controller->resource_id((array)$data['model']);
         }
 
@@ -81,7 +82,7 @@ class AccessLog implements Middleware {
       'query' => json_encode($query),
       'body' => json_encode($body),
       'files' => json_encode($_FILES),
-      'resource_id' => $controller->resource_id($_REQUEST), // todo send $data['model] on crud create
+      'resource_id' => method_exists($controller, 'resource_id') ? $controller->resource_id($_REQUEST) : '',
       'result' => ''
     ];
 
